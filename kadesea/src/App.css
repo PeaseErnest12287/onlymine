@@ -1,0 +1,72 @@
+
+/* App.css */
+.team-member, .name, .qualification, .message-box {
+  margin: 20px;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.name {
+  font-size: 1.5rem;
+  font-weight: bolder;
+  color: chocolate;
+  font-family: Verdana;
+  
+}
+
+.name span {
+  display: inline-block;
+  opacity: 0;
+}
+
+.qualification {
+  font-size: 1.2rem;
+  margin-top: 5px;
+  flex-direction: column;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.message-box {
+  perspective: 1000px;
+  margin-top: 10px;
+}
+
+.message-content {
+  width: 300px;
+  height: 100px;
+  border: 4px solid chocolate;
+  border-radius: 10px;
+  padding: 10px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateY(0);
+  transition: transform 1s;
+}
+
+.message-content.flipped {
+  transform: rotateY(180deg);
+}
+
+.message-front, .message-back {
+  position: absolute;
+  width: max-content;
+  width: 90%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message-back {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left:0;
+  transform: rotateY(180deg);
+}
+

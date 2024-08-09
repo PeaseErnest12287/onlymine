@@ -1,0 +1,64 @@
+.all {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #020202;
+    overflow: hidden; /* Prevent scrolling */
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    grid-template-rows: repeat(2, 1fr); /* 2 rows */
+    gap: 20px; /* Space between items */
+    width: 100%;
+    max-width: 1200px; /* Limit maximum width */
+    height: 80vh; /* Adjust height as needed */
+    position: relative; /* Allow absolute positioning of items */
+}
+
+.item {
+    position: relative; /* Position relative to contain overlay */
+    overflow: hidden;
+    border-radius: 15px;
+    border: 5px solid #fff; /* Initial border color */
+    cursor: pointer;
+    transition: border-color 0.5s ease; /* Smooth border color transition */
+    width: 100%; /* Full width of the grid cell */
+    height: 100%; /* Full height of the grid cell */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item img {
+    width: 100%; /* Full width of the item */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 20px;
+    display: block;
+}
+
+.text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #f3f303;
+    font-size: small;
+    padding: 10px;
+    background-color: rgba(8, 8, 8, 0.973);
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.item:hover .text-overlay {
+    opacity: 1;
+}
+
+.item:hover {
+    transform: rotate(360deg); /* Complete rotation effect on hover */
+}

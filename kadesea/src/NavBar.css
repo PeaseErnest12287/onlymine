@@ -1,0 +1,80 @@
+/* logo area cusomizations */
+.main.one {
+    background-color: #000000;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 10px;
+    margin: 0;
+    display: flex;
+}
+.LogoOnly {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: start;
+    width: max-content;
+    height: auto;
+}
+
+.logo img {
+    height: 40px;
+    width: 40px;
+    border-radius: 10px;
+
+}
+
+.LogoOnly h1 {
+    width: 100px;
+    font-size: small;
+    color: #FFD700;
+}
+/* end of logo stylings  */
+/* this is the pages area */
+.pages ul{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: white;
+   
+
+}
+.pages{
+    top: 0;
+    width: max-content;
+    display: flex;
+}
+.pages ul li {
+    list-style: none;
+    margin: 10px;
+    display: inline;
+
+}
+.pages ul li img{
+    width: 10px;
+    margin: 0;
+    padding: 0;   
+}
+/* this is the authentication area */
+.auth{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+.auth button{
+    margin-left: 10px;
+    border: none;
+    background-color: black;
+    color: white;
+    padding: 5px;
+    font-size: large;
+    font-weight: bold;
+}
+.auth button:hover{
+    border: 4px solid #f57a06;
+    border-radius: 10px;
+    color: #FFD700;
+    font-family: Helvetica;
+}
+
