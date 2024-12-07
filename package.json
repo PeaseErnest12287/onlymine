@@ -1,10 +1,10 @@
 {
   "name": "bottus",
   "version": "1.2.8",
-  "description": "A whatsapp User bot",
-  "main": "./whatsAsena/bot.js",
+  "description": "A WhatsApp User bot",
+  "main": "bot.js",
   "scripts": {
-    "start": "supervisor -s bot.js"
+    "start": "node bot.js"
   },
   "repository": {
     "type": "git",
@@ -22,20 +22,15 @@
   },
   "homepage": "https://github.com/lyfe00011/whatsapp-bot#readme",
   "dependencies": {
-    "@adiwajshing/baileys": "^3.5.2",
     "axios": "^0.21.1",
     "chalk": "^4.1.0",
     "dotenv": "^8.2.0",
     "fluent-ffmpeg": "^2.1.2",
     "form-data": "^3.0.0",
     "fs-extra": "^9.1.0",
-    "g-i-s": "^2.1.6",
-    "google-tts-api": "^2.0.2",
     "got": "^11.8.0",
-    "heroku-client": "^3.1.0",
     "jimp": "^0.16.1",
     "jpeg-js": "^0.4.3",
-    "js-ffmpeg": "0.0.26",
     "jsdom": "^16.4.0",
     "langs": "^2.0.0",
     "meme-maker": "^2.1.2",
