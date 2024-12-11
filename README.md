@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+# bot4
+WhatsApp bot connection
+=======
 ## WhatsApp User Bot
 
 This is a Userbot based on WhatsAsena written by [Pease Ernest](https://github.com/PeaseErnest)
@@ -112,3 +116,4 @@ This is a Userbot based on WhatsAsena written by [Pease Ernest](https://github.c
 
 - [Pease Ernest](https://github.com/PeaseErnest) for [WhatsAsena](https://github.com/PeaseErnest/WhatsAsena)
 - [Pease Ernest](https://github.com/PeaseErnest) for [Baileys](https://github.com/PeaseErnest/Baileys)
+>>>>>>> master

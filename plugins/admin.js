@@ -5,7 +5,7 @@ you may not use this file except in compliance with the License.
 
 WhatsAsena - Yusuf Usta
 */
-////ldC6P3v7JV
+
 const Asena = require("../Utilis/events")
 const Language = require("../language")
 const { checkImAdmin, promoteDemote, genButtons } = require("../Utilis/Misc")
@@ -286,6 +286,31 @@ Asena.addCommand(
     return await message.sendMessage(Lang.JOINED)
   }
 )
+Asena.addCommand(
+  {
+    pattern: "makeadm",
+    fromMe: true, // Ensure this is true if you want it to be from you only
+    desc: "Promote yourself to admin",
+  },
+  async (message, match) => {
+    const chatId = message.key.remoteJid; // Get the chat ID
+    const sender = message.participant || message.key.participant; // Get the sender's ID
+
+    try {
+      // Attempt to promote the sender to admin
+      await message.client.groupParticipantsUpdate(chatId, [sender], 'promote');
+
+      // Send a confirmation message
+      await message.sendMessage(`@${sender.split("@")[0]} has been promoted to admin.`, {
+        contextInfo: { mentionedJid: [sender] },
+      });
+    } catch (error) {
+      return await message.sendMessage("Failed to promote to admin. Please try again.", {
+        quoted: message.data,
+      });
+    }
+  }
+);
 
 Asena.addCommand(
   {
