@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # bot4
 WhatsApp bot connection
 =======
@@ -17,10 +17,6 @@ This is a Userbot based on WhatsAsena written by [Pease Ernest](https://github.c
 3. If you don't have an account on [Heroku](https://signup.heroku.com/), create an account.
 4. Click [FORK](https://github.com/PeaseErnest12287/bot4.git)
 5. Now [DEPLOY](https://qr-hazel-alpha.vercel.app/)<br>
-   <br>
-   <a href="https://youtu.be/FAT06h8jPZY"><img src="https://img.shields.io/badge/-watch%20video-critical?style=for-the-badge&logo=youtube&logoColor=white"></a><br>
-   <a href="https://chat.whatsapp.com/Jl6U29pBwmWLG3OOOfdPPt"><img alt="WhatsApp" src="https://img.shields.io/badge/-Whatsapp%20Group-lightgrey?style=for-the-badge&logo=whatsapp&logoColor=white"/></a><br>
-   <a href="https://github.com/PeaseErnest12287/bot4/wiki/"><img src="https://img.shields.io/badge/plugins-blue?style=for-the-badge&logo=appveyor"/></a>
 
 <!--
 [![Run on Repl.it](https://replit.com/badge/github/PeaseErnest12287/bot4)](https://replit.com/@PeaseErnest/baileys-qr)
@@ -116,4 +112,4 @@ This is a Userbot based on WhatsAsena written by [Pease Ernest](https://github.c
 
 - [Pease Ernest](https://github.com/PeaseErnest) for [WhatsAsena](https://github.com/PeaseErnest/WhatsAsena)
 - [Pease Ernest](https://github.com/PeaseErnest) for [Baileys](https://github.com/PeaseErnest/Baileys)
->>>>>>> master
+

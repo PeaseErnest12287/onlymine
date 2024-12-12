@@ -1,13 +1,12 @@
-/* Copyright (C) 2020 Yusuf Usta.
+/* Copyright (C) 2024 Pease Ernest.
 
-Licensed under the  GPL-3.0 License;
+Licensed under the GPL-3.0 License;
 you may not use this file except in compliance with the License.
-
-WhatsAsena - Yusuf Usta
 */
+
 const fs = require("fs")
 const path = require("path")
-const { handleMessages } = require("./Utilis/msg")
+const { handleMessages } = require("./Utilis/msg")  // Import message handler
 const chalk = require("chalk")
 const { DataTypes } = require("sequelize")
 const config = require("./config")
@@ -18,6 +17,9 @@ const { customMessageScheduler } = require("./Utilis/schedule")
 const { prepareGreetingMedia } = require("./Utilis/greetings")
 const { groupMuteSchuler, groupUnmuteSchuler } = require("./Utilis/groupmute")
 const { PluginDB } = require("./plugins/sql/plugin")
+
+// Importing the new Story Game functionality
+const { startStoryGame, joinStoryGame } = require("./plugins/storyGame");  // Import story game functions
 
 // Sql
 const got = require("got")
@@ -33,13 +35,14 @@ const WhatsAsenaDB = config.DATABASE.define("WhatsAsena", {
   },
 })
 
+// Load external plugins
 fs.readdirSync("./plugins/sql/").forEach((plugin) => {
   if (path.extname(plugin).toLowerCase() == ".js") {
     require("./plugins/sql/" + plugin)
   }
 })
 
-// Yalnızca bir kolaylık. https://stackoverflow.com/questions/4974238/javascript-equivalent-of-pythons-format-function //
+// Adding format functionality to string
 String.prototype.format = function () {
   var i = 0,
     args = arguments
@@ -48,6 +51,7 @@ String.prototype.format = function () {
   })
 }
 
+// Ensure compatibility with older environments
 if (!Date.now) {
   Date.now = function () {
     return new Date().getTime()
@@ -81,6 +85,7 @@ async function whatsAsena(version) {
   conn.logger.level = config.DEBUG ? "debug" : "warn"
   var nodb
 
+  // Check if the session exists, else load the auth info
   if (StrSes_Db.length < 1 || config.CLR_SESSION) {
     nodb = true
     conn.loadAuthInfo(Session.deCrypt(config.SESSION))
@@ -99,11 +104,13 @@ ${chalk.white.bold.bgBlack("Version:")} ${chalk.red.bold.bgBlack(
     )}
 ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`)
   })
+
   conn.on("open", async () => {
     console.log(chalk.green.bold("✅ Login successful!"))
     console.log(chalk.blueBright.italic("⬇️ Installing external plugins..."))
     console.log(chalk.blueBright.italic("✅ Login information updated!"))
 
+    // Update session info in the database
     const authInfo = conn.base64EncodedAuthInfo()
     if (StrSes_Db.length < 1) {
       await WhatsAsenaDB.create({
@@ -116,6 +123,7 @@ ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`)
       })
     }
 
+    // Install and load external plugins
     let plugins = await PluginDB.findAll()
     plugins.map(async (plugin) => {
       try {
@@ -131,13 +139,12 @@ ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`)
           }
         }
       } catch (error) {
-        console.log(
-          `failed to load external plugin : ${plugin.dataValues.name}`
-        )
+        console.log(`failed to load external plugin : ${plugin.dataValues.name}`)
       }
     })
     console.log(chalk.blueBright.italic("⬇️  Installing plugins..."))
 
+    // Load all plugins from the plugins folder
     fs.readdirSync("./plugins").forEach((plugin) => {
       if (path.extname(plugin).toLowerCase() == ".js") {
         require("./plugins/" + plugin)
@@ -152,17 +159,31 @@ ${chalk.blue.italic.bgBlack("ℹ️ Connecting to WhatsApp... Please wait.")}`)
       { detectLinks: false }
     )
   })
+
   conn.on("close", (e) => console.log(e.reason))
 
+  // Schedule tasks (group mute, unmute, custom messages)
   await groupMuteSchuler(conn)
   await groupUnmuteSchuler(conn)
   await customMessageScheduler(conn)
 
+  // Handle incoming chat messages and game commands
   conn.on("chat-update", (m) => {
     if (!m.hasNewMessage) return
     if (!m.messages && !m.count) return
     const { messages } = m
     const all = messages.all()
+
+    // Check for game-related commands
+    if (all[0].message.conversation === '.story') {
+      // Start the story game when the user types `.story`
+      startStoryGame(all[0], conn);
+    } else if (all[0].message.conversation === '.join') {
+      // Handle joining the story game when the user types `.join`
+      joinStoryGame(all[0], conn);
+    }
+
+    // Handle all other messages
     handleMessages(all[0], conn)
   })
 

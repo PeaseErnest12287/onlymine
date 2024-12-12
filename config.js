@@ -1,30 +1,25 @@
-/* Copyright (C) 2020 Yusuf Usta.
+const { Sequelize } = require("sequelize");
+const fs = require("fs");
 
-Licensed under the  GPL-3.0 License;
-you may not use this file except in compliance with the License.
-
-WhatsAsena - Yusuf Usta
-*/
-
-const { Sequelize } = require("sequelize")
-const fs = require("fs")
 if (fs.existsSync("config.env"))
-  require("dotenv").config({ path: "./config.env" })
+  require("dotenv").config({ path: "./config.env" });
 
 // Özel Fonksiyonlarımız
 function convertToBool(text, fault = "true") {
-  return text === fault ? true : false
+  return text === fault ? true : false;
 }
 
 DATABASE_URL =
   process.env.DATABASE_URL === undefined
     ? "./whatsasena.db"
-    : process.env.DATABASE_URL
+    : process.env.DATABASE_URL;
+
 DEBUG =
-  process.env.DEBUG === undefined ? false : convertToBool(process.env.DEBUG)
+  process.env.DEBUG === undefined ? false : convertToBool(process.env.DEBUG);
 
 module.exports = {
-  VERSION: "v1.2.8",
+  VERSION: "1.0.1", // Updated app version
+  BOT_NAME: "Ernest Bot", // New bot name
   SESSION:
     process.env.ASENA_SESSION === undefined ? "" : process.env.ASENA_SESSION,
   EXT: process.env.EXT === undefined ? undefined : process.env.EXT,
@@ -101,4 +96,4 @@ module.exports = {
     process.env.FIND_API_KEY === undefined
       ? "null"
       : process.env.FIND_API_KEY,
-}
+};
