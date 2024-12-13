@@ -1,16 +1,15 @@
 
-# bot4
-WhatsApp bot connection
+# Pease ernest 
+## Ernest bot 
+This is a Userbot based on WhatsAsena written by the brilliant Pease Ernest. It’s a powerful and flexible bot that enhances your WhatsApp experience with an array of fantastic features.
+========
+###  What is WhatsAsena?
+WhatsAsena is a cutting-edge WhatsApp bot developed by the ingenious Pease Ernest. This bot is unique as it does not log into your account; instead, it uses the WhatsApp Web API to perform a wide range of functions, making it both secure and efficient.
+
 =======
-## WhatsApp User Bot
 
-This is a Userbot based on WhatsAsena written by [Pease Ernest](https://github.com/PeaseErnest)
-
-## What is WhatsAsena?
-
-**WhatsAsena** is a WhatsApp bot written by [Pease Ernest](https://github.com/PeaseErnest). It does not log into your account and is written using the WhatsApp Web API.
-
-## Setup
+####  Setup
+To begin the set up 
 
 1. Click [SCAN](https://qr-hazel-alpha.vercel.app/) and scan the QR code through the WhatsApp Linked Devices option in your WhatsApp app.
 2. You will get a long text that needs to be entered in step 4 (ASENA_SESSION).
@@ -108,8 +107,13 @@ This is a Userbot based on WhatsAsena written by [Pease Ernest](https://github.c
 </p>
 </details>
    
-### Thanks To
+##### Thanks To
 
 - [Pease Ernest](https://github.com/PeaseErnest) for [WhatsAsena](https://github.com/PeaseErnest/WhatsAsena)
 - [Pease Ernest](https://github.com/PeaseErnest) for [Baileys](https://github.com/PeaseErnest/Baileys)
 
+
+
+###### More versions.
+ Pease is workig hard to update the bot to do more complex things in whatsapp i, this being a unique bot updates will more often come i would love you to use this bot seemlesly and nicely 
+ thanks:).

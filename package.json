@@ -1,26 +1,26 @@
 {
-  "name": "bottus",
-  "version": "1.2.8",
-  "description": "A whatsapp User bot",
-  "main": "./whatsAsena/bot.js",
+  "name": "ersnest",
+  "version": "1.0.0",
+  "description": "A WhatsApp User bot",
+  "main": "./bot.js",
   "scripts": {
-    "start": "supervisor -s bot.js"
+    "start": "supervisor -s ./bot.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lyfe00011/whatsapp-bot.git"
+    "url": "git+https://github.com/PeaseErnest12287/onlymine.git"
   },
   "keywords": [
     "whatsapp",
     "whatsapp bot",
     "user bot"
   ],
-  "author": "lyfe00011",
+  "author": "Pease Ernest",
   "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/lyfe00011/whatsapp-bot/issues"
   },
-  "homepage": "https://github.com/lyfe00011/whatsapp-bot#readme",
+  "homepage": "https://github.com/PeaseErnest12287/onlymine#readme",
   "dependencies": {
     "@adiwajshing/baileys": "^3.5.2",
     "axios": "^0.21.1",
