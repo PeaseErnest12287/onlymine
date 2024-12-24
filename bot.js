@@ -1,12 +1,11 @@
-/* Copyright (C) 2024 Pease Ernest.
-
-Licensed under the GPL-3.0 License;
-you may not use this file except in compliance with the License.
+/* Copyright (C) 2020 Yusuf Usta.
+Licensed under the GPL-3.0 License; you may not use this file except in compliance with the License.
+WhatsAsena - Yusuf Usta
 */
 
 const fs = require("fs")
 const path = require("path")
-const { handleMessages } = require("./Utilis/msg")  // Import message handler
+const { handleMessages } = require("./Utilis/msg")
 const chalk = require("chalk")
 const { DataTypes } = require("sequelize")
 const config = require("./config")
