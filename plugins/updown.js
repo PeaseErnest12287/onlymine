@@ -1,3 +1,10 @@
+/* Copyright (C) 2024 Pease Ernest.
+
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+
+WhatsAsena - Pease Ernest.
+*/
 const { MessageType, Mimetype } = require("@adiwajshing/baileys")
 const Asena = require("../Utilis/events")
 // const config = require('../config');

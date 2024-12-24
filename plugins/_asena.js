@@ -2,10 +2,10 @@
 
 const Asena = require("../Utilis/events")
 const Config = require("../config")
-const { lydia, getLydia, setLydia } = require("../Utilis/lydia")
+const { lydia, getLydia, setLydia } = require("../Utilis/lydia.js")
 const { getName, readmore } = require("../Utilis/download")
 const Language = require("../language")
-const { textToStylist, addSpace } = require("../Utilis/Misc")
+const { textToStylist, addSpace } = require("../Utilis/Misc.js")
 const Lang = Language.getString("_asena")
 Asena.addCommand(
   { pattern: "list ?(.*)", fromMe: true, dontAddCommandList: true },

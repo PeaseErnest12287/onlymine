@@ -1,3 +1,9 @@
+/*
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+
+WhatsAsena - PEASE PRNEST
+*/
 const Asena = require("../Utilis/events")
 const { MessageType, Mimetype } = require("@adiwajshing/baileys")
 const fs = require("fs")

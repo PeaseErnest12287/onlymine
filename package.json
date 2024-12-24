@@ -39,6 +39,7 @@
     "jsdom": "^16.4.0",
     "langs": "^2.0.0",
     "meme-maker": "^2.1.2",
+    "node-schedule": "^2.1.1",
     "node-tesseract-ocr": "^2.0.0",
     "pg": "^8.5.1",
     "qrcode-reader": "^1.0.4",

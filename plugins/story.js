@@ -1,27 +1,35 @@
-const { logError, logWithTimestamp } = require('./helper');  // Helper functions for logging
-const chalk = require('chalk');  // For colorful console output
-const { conn } = require('./conn');  // Assuming 'conn' is your connection manager for WhatsApp, this should be properly imported or passed
-const { getMessageFromUser } = require('./msg');  // Assuming this is a function that listens for user messages or responses
+const chalk = require('chalk');
+const storyGames = {}; // State tracking for story games per chat ID
 
-let storyGame = {
-    active: false,
-    players: [],
-    story: [],
-    timer: null,
-    joinTimeout: null,
-    storyStarts: [
-        "Once upon a time...",
-        "In a land far away...",
-        "Long ago, in a kingdom by the sea...",
-        "In a mysterious forest...",
-        "On a stormy night..."
-    ]
-};
+// Helper functions to manage story games
+function getStoryGame(chatId) {
+    if (!storyGames[chatId]) {
+        storyGames[chatId] = {
+            active: false,
+            players: [],
+            story: [],
+            timer: null,
+            joinTimeout: null,
+            storyStarts: [
+                "Once upon a time...",
+                "In a land far away...",
+                "Long ago, in a kingdom by the sea...",
+                "In a mysterious forest...",
+                "On a stormy night...",
+                "On a normal morning...",
+                "Depressed and angry...",
+            ]
+        };
+    }
+    return storyGames[chatId];
+}
 
-// Start the story game
-async function startStoryGame(message) {
+// Command to start the story game
+async function startStoryCommand(chatId, sendMessage) {
+    const storyGame = getStoryGame(chatId);
+
     if (storyGame.active) {
-        conn.sendMessage(message.chat, "The game is already active!", { quoted: message });
+        await sendMessage(chatId, "The story game is already active!");
         return;
     }
 
@@ -29,84 +37,125 @@ async function startStoryGame(message) {
     storyGame.players = [];
     storyGame.story = [];
 
-    // Select a random story start
     const randomStart = storyGame.storyStarts[Math.floor(Math.random() * storyGame.storyStarts.length)];
     storyGame.story.push(randomStart);
 
-    // Prompt users to join
-    conn.sendMessage(message.chat, `Type .join to join the story-building game! You have 30 seconds to join.`, { quoted: message });
+    await sendMessage(chatId, `The story-building game has started!\nType .join to participate. You have 30 seconds to join.`);
 
-    // Allow 30 seconds for players to join
-    storyGame.joinTimeout = setTimeout(() => {
+    storyGame.joinTimeout = setTimeout(async () => {
         if (storyGame.players.length < 3) {
             const playersNeeded = 3 - storyGame.players.length;
-            conn.sendMessage(message.chat, `The game couldn't start. You need at least 3 players to start. ${playersNeeded} more players needed.`, { quoted: message });
+            await sendMessage(chatId, `The game couldn't start. At least 3 players are needed. ${playersNeeded} more players required.`);
             storyGame.active = false;
         } else {
-            // Start the game if enough players joined
-            startStoryWriting(message);
+            await startStoryWriting(chatId, sendMessage);
         }
-    }, 30000); // 30 seconds to join
+    }, 30000);
 }
 
-// Handle joining the game
-async function joinStoryGame(message) {
+// Command to join the story game
+async function joinStoryCommand(chatId, sender, sendMessage) {
+    const storyGame = getStoryGame(chatId);
+
     if (!storyGame.active) {
-        conn.sendMessage(message.chat, "There's no active story-building game right now.", { quoted: message });
+        await sendMessage(chatId, "There's no active story-building game right now.");
         return;
     }
 
-    if (storyGame.players.includes(message.sender)) {
-        conn.sendMessage(message.chat, "You are already in the game!", { quoted: message });
+    if (storyGame.players.includes(sender)) {
+        await sendMessage(chatId, "You have already joined the game!");
         return;
     }
 
-    storyGame.players.push(message.sender);
-    conn.sendMessage(message.chat, `You have joined the game! Total players: ${storyGame.players.length}`, { quoted: message });
+    storyGame.players.push(sender);
+    await sendMessage(chatId, `You have joined the game! Total players: ${storyGame.players.length}`);
 }
 
-// Start the story writing after players have joined
-async function startStoryWriting(message) {
-    conn.sendMessage(message.chat, "The game is starting! Each player has 15 seconds to contribute a sentence.", { quoted: message });
+// Function to start the story-writing phase
+async function startStoryWriting(chatId, sendMessage) {
+    const storyGame = getStoryGame(chatId);
+
+    storyGame.startTime = Date.now();
+    await sendMessage(chatId, "The story-writing game is starting! Each player has 15 seconds to contribute a sentence.");
 
     let currentPlayerIndex = 0;
-    let writingTimeout = setInterval(async () => {
-        const currentPlayer = storyGame.players[currentPlayerIndex];
-        const playerMessage = await promptPlayerForSentence(currentPlayer, message.chat);
 
-        if (playerMessage) {
-            storyGame.story.push(playerMessage);
-            conn.sendMessage(message.chat, `Story updated: ${storyGame.story.join(' ')}`, { quoted: message });
+    storyGame.timer = setInterval(async () => {
+        const currentPlayer = storyGame.players[currentPlayerIndex];
+
+        const playerSentence = await promptPlayerForSentence(currentPlayer, chatId, sendMessage);
+        if (playerSentence) {
+            storyGame.story.push(playerSentence);
+            await sendMessage(chatId, `Updated story: ${storyGame.story.join(' ')}`);
+        } else {
+            await sendMessage(chatId, `@${currentPlayer} missed their turn.`, {
+                mentions: [currentPlayer]
+            });
         }
 
         currentPlayerIndex = (currentPlayerIndex + 1) % storyGame.players.length;
 
-        // If 1.5 minutes have passed or enough contributions are made, end the game
         if ((Date.now() - storyGame.startTime) >= 90000 || storyGame.story.length >= 10) {
-            clearInterval(writingTimeout);
-            endStoryGame(message);
+            clearInterval(storyGame.timer);
+            await endStoryGame(chatId, sendMessage);
         }
-    }, 15000); // 15 seconds for each player
-
-    storyGame.startTime = Date.now();
+    }, 15000);
 }
 
-// Prompt player for a sentence
-async function promptPlayerForSentence(player, chat) {
-    // Placeholder for getting a response from the player
-    // In practice, you'd use something like message listeners or additional timeouts for interaction
-    return `Player ${player}'s contribution to the story!`; // Mock response
+// Prompt a player to contribute a sentence
+async function promptPlayerForSentence(player, chatId, sendMessage) {
+    const storyGame = getStoryGame(chatId);
+
+    await sendMessage(chatId, `@${player}, it's your turn! Contribute a sentence to the story:`, {
+        mentions: [player]
+    });
+
+    return new Promise((resolve) => {
+        let listener = conn.on('message', (message) => {
+            if (message.sender === player && message.chat === chatId && !message.body.startsWith('.')) {
+                conn.off('message', listener);
+                resolve(message.body.trim());
+            }
+        });
+
+        setTimeout(() => {
+            conn.off('message', listener);
+            resolve(null);
+        }, 15000);
+    });
 }
 
-// End the game and display the full story
-async function endStoryGame(message) {
+// End the story-building game
+async function endStoryGame(chatId, sendMessage) {
+    const storyGame = getStoryGame(chatId);
+
     clearTimeout(storyGame.joinTimeout);
-    conn.sendMessage(message.chat, `The game has ended! Here's the full story: ${storyGame.story.join(' ')}`, { quoted: message });
     storyGame.active = false;
+
+    if (storyGame.story.length > 1) {
+        await sendMessage(chatId, `The game has ended! Here's the final story:\n\n${storyGame.story.join(' ')}`);
+    } else {
+        await sendMessage(chatId, "The game ended with no contributions.");
+    }
 }
 
-// Export functions for bot to use
-module.exports = {
-    startStoryGame,
-    joinStoryGame
-};
+// Example usage of the commands
+async function handleMessage(message) {
+    const chatId = message.chat;
+    const sender = message.sender;
+    const sendMessage = async (chatId, text, options = {}) => {
+        console.log(chalk.green(`[SendMessage] To: ${chatId}, Message: ${text}`));
+        // Replace this with your bot's actual sendMessage implementation
+    };
+
+    if (message.body.startsWith('.startstory')) {
+        await startStoryCommand(chatId, sendMessage);
+    } else if (message.body.startsWith('.join')) {
+        await joinStoryCommand(chatId, sender, sendMessage);
+    }
+}
+
+// Example: Simulating incoming messages
+handleMessage({ chat: 'chat1', sender: 'user1', body: '.startstory' });
+handleMessage({ chat: 'chat1', sender: 'user2', body: '.join' });
+handleMessage({ chat: 'chat1', sender: 'user3', body: '.join' });

@@ -1,3 +1,10 @@
+/* Copyright (C) 2024 Pease Ernest.
+
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+
+WhatsAsena - Pease Ernest.
+*/
 const simpleGit = require("simple-git")
 const git = simpleGit()
 const Asena = require("../Utilis/events")
@@ -38,7 +45,7 @@ Asena.addCommand(
     let isupdate = await updateChecker()
     if (!isupdate)
       return await message.sendMessage(
-        "*Bot is up-todate.*\n*Nothing to Update.*"
+        "*Ernest Bot seems to be up-todate.*\n*Nothing to Update.*"
       )
     if (Config.HEROKU.HEROKU) {
       await message.reply("```Updating...```")

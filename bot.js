@@ -19,7 +19,7 @@ const { groupMuteSchuler, groupUnmuteSchuler } = require("./Utilis/groupmute")
 const { PluginDB } = require("./plugins/sql/plugin")
 
 // Importing the new Story Game functionality
-const { startStoryGame, joinStoryGame } = require("./plugins/storyGame");  // Import story game functions
+const { startStoryGame, joinStoryGame } = require("./plugins/story");  // Import story game functions
 
 // Sql
 const got = require("got")

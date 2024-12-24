@@ -1,4 +1,9 @@
-const Asena = require("../Utilis/events")
+/*
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+
+WhatsAsena - PEASE PRNEST
+*/const Asena = require("../Utilis/events")
 const FilterDb = require("./sql/filters")
 // const config = require('../config');
 const Language = require("../language")

@@ -1,3 +1,10 @@
+/* Copyright (C) 2024 Pease Ernest.
+
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+
+WhatsAsena - Pease Ernest.
+*/
 // const config = require('../config');
 let fm = true
 const Asena = require("../Utilis/events")
